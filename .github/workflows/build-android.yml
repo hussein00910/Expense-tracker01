@@ -53,6 +53,13 @@ jobs:
       - name: Expo Prebuild (generate Android project)
         run: npx expo prebuild --platform android --no-install
 
+      - name: Enable JS bundling in standalone APK
+        run: |
+          echo "" >> android/gradle.properties
+          echo "# Bundle JS into the APK so it runs without Metro" >> android/gradle.properties
+          echo "BUNDLE_IN_DEBUG=true" >> android/gradle.properties
+          echo "bundleInDebug=true" >> android/gradle.properties
+
       - name: Setup Gradle cache
         uses: actions/cache@v4
         with:
@@ -62,11 +69,11 @@ jobs:
           key: gradle-${{ hashFiles('android/gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: gradle-
 
-      - name: Build Debug APK
+      - name: Build APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug --no-daemon --stacktrace
+          ./gradlew assembleDebug -PbundleInDebug=true --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
