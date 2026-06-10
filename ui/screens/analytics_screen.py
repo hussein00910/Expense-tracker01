@@ -43,7 +43,7 @@ class AnalyticsScreen(MDScreen):
         nav.add_widget(MDIconButton(icon='chevron-right',
                                     on_release=lambda *_: self._change_month(-1)))
         nav.add_widget(MDLabel(text=month_label(self._month), halign='center',
-                               font_style='H6', theme_text_color='Primary'))
+                               font_style='Headline', theme_text_color='Primary'))
         nav.add_widget(MDIconButton(icon='chevron-left',
                                     on_release=lambda *_: self._change_month(1)))
         self._layout.add_widget(nav)
@@ -51,7 +51,7 @@ class AnalyticsScreen(MDScreen):
         # Daily spending bar chart
         self._layout.add_widget(MDLabel(
             text='الإنفاق اليومي',
-            font_style='Subtitle1', bold=True,
+            font_style='Title', bold=True,
             theme_text_color='Primary',
             size_hint_y=None, height='30dp',
         ))
@@ -63,7 +63,7 @@ class AnalyticsScreen(MDScreen):
         # Category breakdown table
         self._layout.add_widget(MDLabel(
             text='تفصيل حسب الفئة',
-            font_style='Subtitle1', bold=True,
+            font_style='Title', bold=True,
             theme_text_color='Primary',
             size_hint_y=None, height='30dp',
         ))
@@ -87,17 +87,17 @@ class AnalyticsScreen(MDScreen):
                 spacing='8dp', padding=('4dp', 0),
             )
             row.add_widget(MDLabel(
-                text=meta['name'], font_style='Body2', theme_text_color='Primary',
+                text=meta['name'], font_style='Body', theme_text_color='Primary',
                 size_hint_x=0.45,
             ))
             row.add_widget(MDLabel(
                 text=format_amount(item['total']),
-                halign='right', font_style='Body2', theme_text_color='Secondary',
+                halign='right', font_style='Body', theme_text_color='Secondary',
                 size_hint_x=0.35,
             ))
             row.add_widget(MDLabel(
                 text=f"{pct:.1f}%",
-                halign='right', font_style='Caption', theme_text_color='Secondary',
+                halign='right', font_style='Label', theme_text_color='Secondary',
                 size_hint_x=0.2,
             ))
             self._layout.add_widget(row)

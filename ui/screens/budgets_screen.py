@@ -7,7 +7,7 @@ from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.label import MDLabel
 from kivymd.uix.textfield import MDTextField
-from kivymd.uix.button import MDRaisedButton
+from ui.kivymd_compat import MDRaisedButton
 from kivymd.uix.card import MDCard
 from kivy.clock import Clock
 
@@ -24,13 +24,13 @@ class BudgetsScreen(MDScreen):
         root = MDBoxLayout(orientation='vertical', padding='16dp', spacing='12dp')
         root.add_widget(MDLabel(
             text='تحديد الميزانية الشهرية',
-            font_style='H6', bold=True,
+            font_style='Headline', bold=True,
             theme_text_color='Primary',
             size_hint_y=None, height='40dp',
         ))
         root.add_widget(MDLabel(
             text='حدد الحد الأقصى للإنفاق لكل فئة شهرياً',
-            font_style='Caption',
+            font_style='Label',
             theme_text_color='Secondary',
             size_hint_y=None, height='24dp',
         ))
@@ -75,7 +75,7 @@ class BudgetsScreen(MDScreen):
             )
             card.add_widget(MDLabel(
                 text=cat['name'],
-                font_style='Subtitle2',
+                font_style='Title',
                 theme_text_color='Primary',
                 size_hint_y=None, height='22dp',
             ))

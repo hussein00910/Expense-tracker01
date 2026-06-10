@@ -19,14 +19,14 @@ class SplashScreen(MDScreen):
         )
         layout.add_widget(MDLabel(
             text='مصروفاتي',
-            font_style='H3',
+            font_style='Headline',
             halign='center',
             theme_text_color='Primary',
             bold=True,
         ))
         layout.add_widget(MDLabel(
             text='تتبع مصروفاتك البنكية تلقائياً',
-            font_style='Body1',
+            font_style='Body',
             halign='center',
             theme_text_color='Secondary',
         ))
@@ -38,7 +38,7 @@ class SplashScreen(MDScreen):
         layout.add_widget(self._spinner)
         self.status_label = MDLabel(
             text='جاري قراءة الرسائل…',
-            font_style='Caption',
+            font_style='Label',
             halign='center',
             theme_text_color='Secondary',
         )

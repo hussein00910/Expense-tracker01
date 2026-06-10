@@ -5,7 +5,7 @@ Entry point: initialises KivyMD theme, builds ScreenManager, runs SMS sync.
 
 from kivymd.app import MDApp
 from kivymd.uix.screenmanager import MDScreenManager
-from kivymd.uix.navigationbar import MDNavigationBar, MDNavigationItem
+from kivymd.uix.navigationbar import MDNavigationBar, MDNavigationItem, MDNavigationItemIcon, MDNavigationItemLabel
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivy.clock import Clock
 
@@ -59,8 +59,8 @@ class MasarifatiApp(MDApp):
         nav = MDNavigationBar(on_switch_tabs=self._on_tab)
         for icon, label, screen in _NAV_ITEMS:
             item = MDNavigationItem(
-                MDNavigationItem.icon(icon) if hasattr(MDNavigationItem, 'icon') else None,
-                text=label,
+                MDNavigationItemIcon(icon=icon),
+                MDNavigationItemLabel(text=label),
             )
             item._screen = screen
             nav.add_widget(item)

@@ -6,7 +6,7 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDRaisedButton, MDFlatButton
+from ui.kivymd_compat import MDRaisedButton, MDFlatButton
 from kivymd.uix.selectioncontrol import MDSwitch
 from kivy.clock import Clock
 
@@ -22,7 +22,7 @@ class SettingsScreen(MDScreen):
         root = MDBoxLayout(orientation='vertical', padding='16dp', spacing='16dp')
         root.add_widget(MDLabel(
             text='الإعدادات',
-            font_style='H5', bold=True,
+            font_style='Headline', bold=True,
             theme_text_color='Primary',
             size_hint_y=None, height='48dp',
         ))
@@ -52,14 +52,14 @@ class SettingsScreen(MDScreen):
         content.add_widget(self._section_label('حول التطبيق'))
         content.add_widget(MDLabel(
             text='مصروفاتي — تطبيق تتبع المصروفات البنكية عبر SMS\nالإصدار 1.0.0',
-            font_style='Body2',
+            font_style='Body',
             theme_text_color='Secondary',
             size_hint_y=None, height='56dp',
         ))
 
         self._status = MDLabel(
             text='',
-            font_style='Caption',
+            font_style='Label',
             theme_text_color='Secondary',
             size_hint_y=None, height='30dp',
             halign='center',
@@ -74,7 +74,7 @@ class SettingsScreen(MDScreen):
     def _section_label(text: str) -> MDLabel:
         return MDLabel(
             text=text,
-            font_style='Subtitle1',
+            font_style='Title',
             bold=True,
             theme_text_color='Primary',
             size_hint_y=None, height='36dp',

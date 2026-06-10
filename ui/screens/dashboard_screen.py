@@ -6,9 +6,9 @@ from kivymd.uix.screen import MDScreen
 from kivymd.uix.boxlayout import MDBoxLayout
 from kivymd.uix.scrollview import MDScrollView
 from kivymd.uix.label import MDLabel
-from kivymd.uix.button import MDIconButton, MDFlatButton
+from kivymd.uix.button import MDIconButton
 from kivymd.uix.gridlayout import MDGridLayout
-from kivymd.uix.progressbar import MDProgressBar
+from ui.kivymd_compat import MDFlatButton, MDProgressBar
 from kivy.clock import Clock
 from kivy.metrics import dp
 
@@ -69,7 +69,7 @@ class DashboardScreen(MDScreen):
         nav.add_widget(MDLabel(
             text=month_label(self._month),
             halign='center',
-            font_style='H6',
+            font_style='Headline',
             theme_text_color='Primary',
         ))
         nav.add_widget(MDIconButton(
@@ -104,7 +104,7 @@ class DashboardScreen(MDScreen):
 
         self._layout.add_widget(MDLabel(
             text='توزيع المصروفات',
-            font_style='Subtitle1',
+            font_style='Title',
             theme_text_color='Primary',
             size_hint_y=None, height='32dp',
             bold=True,
@@ -131,11 +131,11 @@ class DashboardScreen(MDScreen):
             row = MDBoxLayout(orientation='horizontal', size_hint_y=None, height='26dp')
             row.add_widget(MDLabel(
                 text=f"● {meta['name']}",
-                theme_text_color='Primary', font_style='Caption',
+                theme_text_color='Primary', font_style='Label',
             ))
             row.add_widget(MDLabel(
                 text=f"{pct:.0f}%",
-                halign='right', theme_text_color='Secondary', font_style='Caption',
+                halign='right', theme_text_color='Secondary', font_style='Label',
             ))
             legend.add_widget(row)
         chart_row.add_widget(legend)
@@ -146,7 +146,7 @@ class DashboardScreen(MDScreen):
         if budgets:
             self._layout.add_widget(MDLabel(
                 text='الميزانية الشهرية',
-                font_style='Subtitle1',
+                font_style='Title',
                 theme_text_color='Primary',
                 size_hint_y=None, height='32dp',
                 bold=True,
@@ -165,11 +165,11 @@ class DashboardScreen(MDScreen):
                     spacing='4dp',
                 )
                 lbl_row = MDBoxLayout(orientation='horizontal', size_hint_y=None, height='20dp')
-                lbl_row.add_widget(MDLabel(text=meta['name'], font_style='Caption',
+                lbl_row.add_widget(MDLabel(text=meta['name'], font_style='Label',
                                            theme_text_color='Primary'))
                 lbl_row.add_widget(MDLabel(
                     text=f"{format_amount(spent)} / {format_amount(limit)}",
-                    halign='right', font_style='Caption', theme_text_color='Secondary',
+                    halign='right', font_style='Label', theme_text_color='Secondary',
                 ))
                 brow.add_widget(lbl_row)
                 bar = MDProgressBar(value=pct * 100, max=100, size_hint_y=None, height='8dp')
@@ -185,7 +185,7 @@ class DashboardScreen(MDScreen):
         # ── Recent transactions ───────────────────────────────────────────────
         self._layout.add_widget(MDLabel(
             text='آخر المعاملات',
-            font_style='Subtitle1',
+            font_style='Title',
             theme_text_color='Primary',
             size_hint_y=None, height='32dp',
             bold=True,
