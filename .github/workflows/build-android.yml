@@ -53,12 +53,19 @@ jobs:
       - name: Expo Prebuild (generate Android project)
         run: npx expo prebuild --platform android --no-install
 
-      - name: Enable JS bundling in standalone APK
+      - name: Generate release keystore
         run: |
-          echo "" >> android/gradle.properties
-          echo "# Bundle JS into the APK so it runs without Metro" >> android/gradle.properties
-          echo "BUNDLE_IN_DEBUG=true" >> android/gradle.properties
-          echo "bundleInDebug=true" >> android/gradle.properties
+          cd android
+          keytool -genkey -v \
+            -storetype PKCS12 \
+            -keystore app/release.keystore \
+            -alias releasekey \
+            -keyalg RSA \
+            -keysize 2048 \
+            -validity 10000 \
+            -storepass android123 \
+            -keypass android123 \
+            -dname "CN=Unified Toolkit,O=Security,C=US"
 
       - name: Setup Gradle cache
         uses: actions/cache@v4
@@ -69,22 +76,27 @@ jobs:
           key: gradle-${{ hashFiles('android/gradle/wrapper/gradle-wrapper.properties') }}
           restore-keys: gradle-
 
-      - name: Build APK
+      - name: Build Release APK
         run: |
           cd android
           chmod +x gradlew
-          ./gradlew assembleDebug -PbundleInDebug=true --no-daemon --stacktrace
+          ./gradlew assembleRelease \
+            -Pandroid.injected.signing.store.file=$(pwd)/app/release.keystore \
+            -Pandroid.injected.signing.store.password=android123 \
+            -Pandroid.injected.signing.key.alias=releasekey \
+            -Pandroid.injected.signing.key.password=android123 \
+            --no-daemon --stacktrace
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: unified-toolkit-v1.0.0-debug
-          path: android/app/build/outputs/apk/debug/app-debug.apk
+          name: unified-toolkit-v1.0.0-release
+          path: android/app/build/outputs/apk/release/app-release.apk
           retention-days: 30
           if-no-files-found: error
 
       - name: Show APK info
         run: |
-          APK=android/app/build/outputs/apk/debug/app-debug.apk
+          APK=android/app/build/outputs/apk/release/app-release.apk
           echo "APK size: $(du -sh $APK | cut -f1)"
           echo "SHA256: $(sha256sum $APK)"
