@@ -57,13 +57,13 @@ class TransactionCard(MDCard):
         name = self.merchant or meta['name']
         info.add_widget(MDLabel(
             text=name[:30],
-            font_style='Body1',
+            font_style='Body',
             theme_text_color='Primary',
             size_hint_y=None, height='24dp',
         ))
         info.add_widget(MDLabel(
             text=format_date(self.date),
-            font_style='Caption',
+            font_style='Label',
             theme_text_color='Secondary',
             size_hint_y=None, height='18dp',
         ))

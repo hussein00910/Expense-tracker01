@@ -20,13 +20,13 @@ class SummaryCard(MDCard):
 
         self.add_widget(MDLabel(
             text=title,
-            font_style='Caption',
+            font_style='Label',
             theme_text_color='Secondary',
             size_hint_y=None, height='18dp',
         ))
         val_label = MDLabel(
             text=value,
-            font_style='H6',
+            font_style='Headline',
             bold=True,
             theme_text_color='Custom' if value_color else 'Primary',
             size_hint_y=None, height='34dp',
@@ -38,7 +38,7 @@ class SummaryCard(MDCard):
         if subtitle:
             self.add_widget(MDLabel(
                 text=subtitle,
-                font_style='Caption',
+                font_style='Label',
                 theme_text_color='Secondary',
                 size_hint_y=None, height='18dp',
             ))
