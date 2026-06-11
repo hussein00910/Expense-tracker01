@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { SecurityTool, ExecutionResult } from "../types";
 
 const SIMULATED_OUTPUTS: Record<string, (params: Record<string, string>) => string> = {
@@ -60,19 +61,53 @@ function getSimulatedDelay(toolId: string): number {
   return delays[toolId] ?? 1000;
 }
 
+async function tryBackendExecute(
+  tool: SecurityTool,
+  params: Record<string, string>,
+  command: string
+): Promise<ExecutionResult | null> {
+  try {
+    const serverUrl = await AsyncStorage.getItem("@toolkit_server_url");
+    if (!serverUrl?.trim()) return null;
+    const startTime = Date.now();
+    const controller = new AbortController();
+    const timeoutId = setTimeout(() => controller.abort(), 35000);
+    const response = await fetch(`${serverUrl.trim()}/execute`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ tool_id: tool.id, command, params }),
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    if (!response.ok) return null;
+    const data = await response.json();
+    return {
+      command,
+      output: data.output ?? "[no output]",
+      duration: Date.now() - startTime,
+      exitCode: data.exit_code ?? 0,
+    };
+  } catch {
+    return null;
+  }
+}
+
 export async function executeCommand(
   tool: SecurityTool,
   params: Record<string, string>
 ): Promise<ExecutionResult> {
   const startTime = Date.now();
+  const command = buildCommand(tool.commandTemplate, params);
+  const backendResult = await tryBackendExecute(tool, params, command);
+  if (backendResult) return backendResult;
   await new Promise((r) => setTimeout(r, getSimulatedDelay(tool.id)));
   const outputFn = SIMULATED_OUTPUTS[tool.id];
-  const output = outputFn
+  const rawOutput = outputFn
     ? outputFn(params)
     : `[+] Executing: ${tool.name}\n[+] Params: ${JSON.stringify(params, null, 2)}\n[+] Completed successfully.`;
   return {
-    command: buildCommand(tool.commandTemplate, params),
-    output,
+    command,
+    output: `[DEMO MODE - Connect backend server for real execution]\n\n${rawOutput}`,
     duration: Date.now() - startTime,
     exitCode: 0,
   };
